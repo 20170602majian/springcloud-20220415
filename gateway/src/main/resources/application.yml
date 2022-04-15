@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true    # 开启从eureka 拉取服务列表  并自动映射
+      routes:
+        - id: cloud-fegin
+          predicates:
+            - Path=/fegin/**
+          uri: lb://cloud-fegin
+          #filters:
+           # - StripPrefix=1
+  application:
+    name: gateWay
+eureka:
+  instance:
+    hostname: 127.0.0.1 #实例注册地址
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka,http://localhost:9002/eureka/
+logging:
+  level:
+    org.springframework.cloud.gateway: info
+server:
+  port: 80

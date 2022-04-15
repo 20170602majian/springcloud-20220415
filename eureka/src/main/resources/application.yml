@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: cloud-eureka #服务名称
+  security:
+    user:
+      name: user    #配置登陆的账号-user
+      password: 123     #密码-123
+server:
+  port: 9000 #端口
+eureka:
+  server:
+    enable-self-preservation: false #关闭自我保护
+  instance:
+    hostname: localhost:${server.port} #实例注册地址
+  client:
+    #fetch-registry: false
+    #register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:9002/eureka/   #注册的协议地址访问名称
+
+

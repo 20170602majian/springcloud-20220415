@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: cloud-fegin #服务名称
+server:
+  port: 20000 #端口
+eureka:
+  instance:
+    hostname: 127.0.0.1 #实例注册地址
+    lease-renewal-interval-in-seconds: 30 #每间隔30s，向服务端发送一次心跳
+    lease-expiration-duration-in-seconds: 120  #如果我120s之内没有给你发心跳，就代表我“死”了，将我踢出掉。
+  client:
+    #healthcheck:
+     # enabled: true   #开启健康检查,按照需求更改续约时间和到期时间
+    service-url:
+      defaultZone: http://localhost:9000/eureka,http://localhost:9002/eureka/
+
+ribbon:
+  MaxConnectionsPerHost: 500
+  MaxTotalConnections: 200
+  ConnectTimeout: 5000 #建立连接时间
+  ReadTimeout: 5000    #接口调用的超时时间
+  MaxAutoRetries: 1   #重试次数：1
+  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule   #定义所有服务的策略
+provider:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule #只定义一个服务的负载策略
+
+#开启feign支持hystrix  (注意，一定要开启，旧版本默认支持，新版本默认关闭)
+# #修改调用超时时间（默认是1秒就算超时）
+feign:
+  httpclient:
+    enabled: true   #不会出现强制转换为post方式
+  hystrix:
+    enabled: true  #开启,让fegin支持hystrix
+  client:
+    config:
+      default:
+        connect-timeout: 5000   #建立连接时间
+        read-timeout: 10000     #请求的超时时间
+logging:
+  level:
+    org.springframework: INFO             #spring的日志级别
+    com.majian.fegin.service.MemberFegin: debug   #针对于单个 feginClient 做日志级别控制
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE  #信号量隔离
+          #strategy: Thread    #线程池隔离
+
+
+
+

@@ -1,0 +1,28 @@
+server:
+  port: 6001
+  #servlet:
+    #context-path: /uaa
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka/,http://localhost:9002/eureka/
+spring:
+  application:
+    name: auth
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/testMyBatisPlus?useUnicode=true&characterEncoding=utf8
+#可以打印sql等信息
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.majian.springboot_mybatis.entity
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

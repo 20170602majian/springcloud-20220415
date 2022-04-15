@@ -1,0 +1,52 @@
+spring:
+  rabbitmq:
+    virtual-host: /
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  application:
+    name: cloud-rabbitmq
+mq:
+  env: local
+server:
+  port: 30000
+eureka:
+  instance:
+    hostname: 127.0.0.1 #实例注册地址
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka,http://localhost:9002/eureka/
+
+ribbon:
+  MaxConnectionsPerHost: 500
+  MaxTotalConnections: 200
+  ConnectTimeout: 10000 #建立连接时间
+  ReadTimeout: 10000    #接口调用的超时时间
+  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule   #定义所有服务的策略
+
+#开启feign支持hystrix  (注意，一定要开启，旧版本默认支持，新版本默认关闭)
+# #修改调用超时时间（默认是1秒就算超时）
+feign:
+  httpclient:
+    enabled: true   #不会出现强制转换为post方式
+  hystrix:
+    enabled: true  #开启,让fegin支持hystrix
+  client:
+    config:
+      default:
+        connect-timeout: 50000   #建立连接时间
+        readTimeout: 50000       #请求的超时时间
+logging:
+  level:
+    org.springframework: INFO             #spring的日志级别
+    #com.majian.fegin.service.MemberFegin: debug   #针对于单个 feginClient 做日志级别控制
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+          strategy: SEMAPHORE  #信号量隔离
+          #strategy: Thread    #线程池隔离
