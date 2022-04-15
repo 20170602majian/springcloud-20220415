@@ -20,7 +20,7 @@ public interface MemberFegin {
     @ResponseBody
     String getPost(@RequestBody Map map);
 
-
+    //发送
     @RequestMapping( value = "/member/getGet",method = RequestMethod.GET)
     @ResponseBody
     String getGet(@RequestParam Map map);
