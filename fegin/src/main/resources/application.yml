@@ -36,7 +36,7 @@ feign:
     config:
       default:
         connect-timeout: 5000   #建立连接时间
-        read-timeout: 10000     #请求的超时时间
+        read-timeout: 10000      #请求的超时时间
 logging:
   level:
     org.springframework: INFO             #spring的日志级别
