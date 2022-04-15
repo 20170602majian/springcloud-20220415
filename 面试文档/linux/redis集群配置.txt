@@ -1,0 +1,79 @@
+多表联合方查询完成数据业务的展示
+
+
+非关系型数据库  nosql
+
+缓存数据的用途:减少对数据库操作   
+
+
+mongodb  以json方式存储   读的能力非常好
+
+redis官方只支持linux 对window没有支持
+
+
+启动
+cd /usr/local/redis
+redis-server ./redis.conf
+redis-cli -h 192.168.220.130 -p 6379
+
+
+
+rdb通过save命令进行数据持久
+手动和自动生成快照
+符合条件时,redis自动创建rdb文件
+
+
+
+
+
+搭建集群
+首先在redis里面创建文件夹redis-cluster
+在里面创建6个文件夹6379---6384
+在每个文件夹创建文件  vim redis.conf
+
+port 6379
+cluster-enabled yes
+cluster-config-file nodes-6379.conf
+cluster-node-timeout 5000
+protected-mode no
+appendonly yes
+daemonize yes
+
+
+
+粘贴老师给的配置文件,修改端口和下面的一个  ,  和文件夹名字对应,
+然后在那6个文件夹那一层创建俩文件vim redis-cluster-start.sh   vim redis-cluster-shutdown.sh ,在这两个文件里面传入老师给的txt里面的开启所有服务和关闭所有服务的命令,记得修改路径,查看当前路径pwd
+
+#!/bin/bash
+echo "start redis-server ....."
+redis-server /usr/local/redis/redis-cluster/6379/redis.conf
+redis-server /usr/local/redis/redis-cluster/6380/redis.conf
+redis-server /usr/local/redis/redis-cluster/6381/redis.conf
+redis-server /usr/local/redis/redis-cluster/6382/redis.conf
+redis-server /usr/local/redis/redis-cluster/6383/redis.conf
+redis-server /usr/local/redis/redis-cluster/6384/redis.conf
+echo "start redis-server end"
+
+
+#!/bin/bash
+echo "shutdown redis-server ......"
+redis-cli -h 192.168.25.137 -p 6379  shutdown
+redis-cli -h 192.168.25.137 -p 6380  shutdown
+redis-cli -h 192.168.25.137 -p 6381  shutdown
+redis-cli -h 192.168.25.137 -p 6382  shutdown
+redis-cli -h 192.168.25.137 -p 6383  shutdown
+redis-cli -h 192.168.25.137 -p 6384  shutdown
+echo "shutdown redis-server end"
+
+
+
+然后  chomd +x redis-cluster-start.sh  chomd +x redis-cluster-shutdown.sh  进行赋予权限 
+然后运行redis-cli --cluster create 192.168.220.130:6379 192.168.220.130:6380 192.168.220.130:6381 192.168.220.130:6382 192.168.220.130:6383 192.168.220.130:6384 --cluster-replicas 1    
+这个命令需要修改ip地址,
+然后随便进一个  redis-cli -c  -h 192.168.220.130 -p 6384
+在里面运行命令 cluster nodes  查看当前集群信息,是不是三主三从
+然后掉线一个看看 redis-cli -h 192.168.220.130 -p 6379  shutdown
+在随便进一个运行  cluster nodes  看看集群信息
+在退出	exit	把停掉的服务起开   			redis-server /usr/local/redis/redis/redis-cluster/6379/redis.conf
+在随便进一个运行  cluster nodes  看看集群信息
+

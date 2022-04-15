@@ -1,0 +1,68 @@
+
+3、安装tomcat7
+1)解压源码包(源码包已经放于目录：/usr/local中)
+cd /usr/local
+
+tar - zxvf apache-tomcat-7.0.64.tar.gz
+
+mv apache-tomcat-7.0.64 tomcat
+
+2)启动tomcat
+/usr/local/tomcat/bin/startup.sh
+
+出现如下所示说明启动成功：
+
+
+4、增加8080端口到防火墙配置中
+centos7换用了新的防火墙体系firewalld,此防火墙有两种配置文件，一种是自动安装的，在/usr/lib/firewalld/services/目录中，
+还有一种是用户自定义，存放于目录/etc/firewalld/services/中,在这个文件中新建一个tomcat.xml,填入下面内容
+
+1)新建tomcat防火墙例外端口规则文件tomcat.xml
+内容如下：
+
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<service>
+ 
+<short> Tomcat Webserver</short>
+ 
+<description>HTTPS is a modified HTTP used to serve Web pages when security is important.Examples aresites that r
+ 
+equire logins like stores or web mail.This option is not required for viewing pages locally or developing Web pages.You n
+ 
+eed the httpd package installed for this option to be useful.</description>
+ 
+<port protocol="tcp" port="8080"/>
+ 
+</service>
+2）使用命令加入到防火墙规则中
+然后把此服务加入防火墙规则中
+
+firewall-cmd --reload
+
+firewall-cmd --add-service=tomcat
+
+firewall-cmd --permanent --add-service=tomcat
+
+ 
+5、测试tomcat
+假设安装机器的IP为192.168.1.25，在另一台同网段机器的浏览器上输入：
+
+http://192.168.220.130:8080
+
+
+
+linux 下启动tomcat 时没有执行权限
+Cannot find bin/catalina.sh 
+The file is absent or does not have execute permission 
+This file is needed to run this program 
+
+解决办法:  在tomcat的bin目录下运行命令 chmod 777 *.sh 
+
+防火墙状态===
+使用命令：systemctl status firewalld.service查看防火墙状态
+执行后可以看到绿色字样标注的“active（running）”，说明防火墙是开启状态
+使用命令：systemctl stop firewalld.service    关闭运行的防火墙
+
+mysql密码:MySQL5.7
+数据库退出:  exit

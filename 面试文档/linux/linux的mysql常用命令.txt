@@ -1,0 +1,114 @@
+1.开启和关闭
+1.1.开启
+　　service mysql start
+
+1.2.关闭
+　　service mysql stop
+
+1.3.重启
+　　service mysql restart
+
+回到顶部
+2.登录
+2.1.密码明文
+　　语法：mysql -u用户名 -p用户密码
+
+　　举例：mysql -uroot -p123456
+
+2.2.密码密文
+　　语法：mysql -u用户名 -p+回车，然后输入密码
+
+　　举例：mysql -uroot -p　　
+
+　　
+
+回到顶部
+3.修改密码
+3.1.SET PASSWORD命令（需登录）
+　　语法：mysql> set password for 用户名@localhost = password('新密码');
+
+　　举例：mysql>set password for root@localhost = password('123456');
+
+3.2.使用sql语句更新 mysql 库中的 user 表（需登录）
+　　mysql> use mysql; 
+
+　　mysql> update user set password=password('123') where user='root' and host='localhost'; 
+
+　　mysql> flush privileges;
+
+3.3.mysqladmin命令，明文（不需登录）
+　　语法：mysqladmin -u用户名 -p旧密码 password 新密码
+
+　　举例：mysqladmin -uroot -p123 password 123456
+
+3.4.mysqladmin命令，密文（不需登录）
+　　语法：mysqladmin -u用户名 -p旧密码 password+回车，然后输入两次新密码
+
+　　举例：mysqladmin -uroot -p123 password
+
+　　
+
+回到顶部
+4.常用操作（需登录）
+4.1.显示数据库列表
+　　show databases;
+
+4.2.创建、删除数据库
+　　create database 数据库名;
+
+　　drop database 数据库名;
+
+4.3.显示库中的数据表
+　　use mysql;
+
+　　show tables;
+
+4.4.显示数据表结构
+　　describe 数据表名;
+
+ 
+
+回到顶部
+5.导入、导出数据库（不需登录）
+5.1.导出所有数据库
+　　语法：mysqldump -u用户名 -p密码 --all-databases >导出路径
+
+　　举例：mysqldump -uroot -p123456 --all-databases >/tmp/all.sql
+
+5.2.导出指定数据库
+　　语法：mysqldump -u用户名 -p密码 --databases 数据库名>导出路径
+
+　　举例：mysqldump -uroot -p123456 --databases testdatebase >/tmp/testdatebase.sql
+
+5.3.导出指定数据库的结构（无数据）
+　　语法：mysqldump -u用户名 -p密码 --no-data --databases 数据库名>导出路径
+
+　　举例：mysqldump -uroot -p123456 --no-data --databases testdatebase  >/tmp/testdatebase_no_data.sql
+
+5.4.导出指定数据库中的指定表
+　　语法：mysqldump -u用户名 -p密码 --databases 数据库名 --tables 数据表名>导出路径
+
+　　举例：mysqldump -uroot -p123456 --databases testdatebase --tables t_user >/tmp/testdatebase_user.sql
+
+5.5.导出指定数据库中的指定表的结构（无数据）
+　　语法：mysqldump -u用户名 -p密码 --no-data --databases 数据库名 --tables 数据表名>导出路径
+
+　　举例：mysqldump -uroot -p123456 --no-data --databases testdatebase --tables t_user >/tmp/testdatebase_user_no_data.sql
+
+5.6.导出指定数据库中的指定表，设置查询条件
+　　语法：mysqldump -u用户名 -p密码 --databases 数据库名 --tables 数据表名 --where='条件'>导出路径
+
+　　举例：mysqldump -uroot -p123456 --databases testdatebase --tables t_user --where='user_no=1'>/tmp/mysql_user_no.sql
+
+ 5.7.跨服务器备份数据库
+　　将 host1 服务器中的 db1 数据库的所有数据导入到 host2 中的db2数据库中，db2的数据库必须存在否则会报错
+
+　　（经测试，在mysql5.5版本中，db2存在即可，实际生成数据库名称与db1一致；加上-C参数可以启用压缩传递）
+
+　　语法：mysqldump --host=host1 -u用户名 -p密码 --databases db1 |mysql --host=host2 -u用户名 -p密码 --databases db2
+
+　　举例：mysqldump --host=192.168.1.101 -uroot -p123456 -C --databases testdatebase |mysql --host=192.168.3.102 -uroot -p123456 --database testdatebase
+
+5.8.通过 sql 文件导入数据库
+　　语法：mysql -u用户名 -p密码 < 导入路径
+　　举例：mysql -uroot -p123456 < /tmp/testdatebase.sql

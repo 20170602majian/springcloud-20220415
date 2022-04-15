@@ -1,0 +1,12 @@
+JDK传进去,基本都放在usr/local 中
+把路径记住  pwd命令,,然后复制路径把下面第一行的路径改一下.
+vim /etc/profile ,进去之后粘贴下面的四行,记得第一行的路径要改 
+上传jdk解压 进入profile编辑以下内容
+在文件内容的末尾添加以下内容：
+export JAVA_HOME=/usr/local/jdk/jdk1.8.0_40  
+export JRE_HOME=${JAVA_HOME}/jre  
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib  
+export PATH=${JAVA_HOME}/bin:$PATH
+
+然后保存退出。注意更新生效这个文件,删掉空格
+

@@ -1,0 +1,187 @@
+框架
+1、 Spring中的设计模式？
+工厂模式:beanfactory
+单例模式:bean默认就是单例的
+代理模式:spring aop 功能用到了jdk动态代理和cglib字节码生成技术
+模板方法:JpaTemolate
+观察者模式:定义对象一对多的依赖关系,一个对象改变,所有依赖他的都会得到通知更新----spring的事件驱动模型
+适配器模式:HandlerAdatper  spring mvc中的处理器适配器,找到具体的处理器
+
+2、如何理解Spring AOP？
+我们把与业务逻辑无关的代码进行封装成一个切面,可以更好地复用,可以降低耦合度,利于维护,可以用于安全,日志,事务,
+springaop使用的动态代理,,不会去修改字节码,运行时会在内存中生成一个方法的aop对象,这个对象包含目标对象的全部方法,并在特定的切点做增强处理,并回调原对象方法
+jdk动态代理
+cglib字节码生成技术
+
+3、 Spring中支持的Bean作用域？
+scope有五种属性
+单例   仅创建一个实例,ioc容器每次返回的是同一个bean实例
+多例	会创建多个实例,每次返回会返回一个新的实例
+request 	该属性只可以对http请求有效,一次http请求会创建一个新的bean,适用于WebApplicationContext环境
+session  该属性仅对httpsession有效,同一个session共享一个bean实例,
+golb-session    所有session共享一个bean实例
+4、Spring框架的事务管理有哪些优点？
+分为编程式事务和声明式事务
+编程式事务就是在代码中调用commit,rollback等方法,
+声明式事务通过aop事务,对方法的前后进行拦截,将事务的处理的功能织入拦截的方法中
+		声明式事务分为基于TransactionProxyFactoryBean
+		基于@Transcation注解的,需要在spring配置文件中配置TranscationManager     通过<tx: annoation-driven>开启事务管理
+		基于aspectj aop配置事务		
+5、SpringMVC的流程？
+
+6、SpringMVC怎么样设定重定向和转发的？
+    /**
+     * 实现转发
+     */
+    @RequestMapping("/hello11.action")
+    public String hello11(HttpServletRequest request){
+        request.setAttribute("name", "cjj");
+        return "forward:hello.action";
+    }
+    
+    /**
+     * 实现重定向----rui de ruai ke te
+	 
+     */
+    @RequestMapping("/hello12.action")
+    public String hello12(HttpServletRequest request){
+        request.setAttribute("name", "cjj");
+        return "redirect:/hello.action";
+    }
+	
+	在SpringMVC中仍然可以使用传统方式实现转发和重定向
+　　request.getRequestDispatcher(" ").forward(request,response);
+　　response.sendRedirect(" ");
+
+7、springboot自动配置的原理 ？
+@EnableAutoConfiguration 开启自动配置，主要作用就是调用 Spring-Core 包里的 loadFactoryNames()，将 autoconfig 包里的已经写好的自动配置加载进来。
+
+8、Mybaits的优缺点？
+优点: 基于sql编写,灵活,当需求发生改变可以快速输出结果,与jdbc相比可以减少代码量,不需要手动开关,,可以很好与其他数据库兼容,jdbc支持的mybatis都支持,可以很好的与spriing集成
+缺点:sql编写量大,不能随意更换数据库,更换数据库就得重写编写一套sql语句,
+
+9、#{}和${}的区别是什么？
+	#{}是占位符,mybatis会创建PrepardStatement参数并且安全的设置参数
+	${}是连接符,不对参数做任何解析,直接拼接sql语句,会出现sql注入问题
+
+10、通常一个mapper.xml文件，都会对应一个Dao接口，这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗？
+接口里的方法是不能重载的，因为是全限名+方法名的保存和寻找策略。
+Dao接口的工作原理是JDK动态代理，Mybatis运行时会使用JDK动态代理为Dao接口生成代理proxy对象，代理对象proxy会拦截接口方法，转而执行接口方法所对应的MappedStatement所代表的sql，然后将sql执行结果返回。
+MappedStatement解释 : MappedStatement维护了一条 <select|update|delete|insert>节点的封装,包括了传入参数映射配置、执行的SQL语句、结果映射配置等信息
+
+11、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
+不同的Xml映射文件，如果配置了namespace，那么id可以重复；如果没有配置namespace，那么id不能重复.
+原因是 namespace + id是作为Map<String, MappedStatement>的密钥使用的。如果没有"namespace"，就剩下id，那么id重复会导致数据互相覆盖。如果有了"namespace"，自然id就可以重复，"namespace"不同，namespace + id自然也就不同。
+
+12、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
+	1.通过resultMap标签，将列名与对象属性名之间一一对应。
+	2.通过sql的列别名功能，使列别名与对象属性名之间对应，比如：T—NAME AS name，列别名通常不区分大小写，属性名通常小写，mybatis通常会忽略大小写智能的对应。
+
+13、常用的注解都有哪些？	
+@Insert :
+		 实现新增
+
+@Update:
+		 实现更新
+@Delete:
+		 实现删除
+@Select:
+		实现查询
+@Result:
+		 实现结果集封装
+@Results:
+		 可以与@Result 一起使用，封装多个结果集
+@ResultMap:
+		 实现引用@Results 定义的封装
+		 
+		 
+数据库 mysql || Redis
+1、为什么使用数据索引能提高效率？
+因为有了索引查询数据不需要扫描全表,通过三次io就可以查询数据
+
+2、什么情况下应不建或少建索引？
+增删改操作查询操作少时候
+
+3、四种隔离级别？
+读未提交,读已提交,可重复读,串行化
+
+4、Redis支持的数据类型？
+string   list   hash   set  zset  
+
+5、什么是Redis持久化？Redis有哪几种持久化方式？优缺点是什么？
+redis可以把内存中的数据持久化到磁盘上,有rdb快照方式和aof文件追加方式,,默认为rdb
+rdb优点是只有一个drup.rdb文件,方便持久化,会用单独子线程进行持久化,主线程不进行任何io操作,保证redis的高性能rdb方式会丢失数据
+rdb方式会丢失数据,在持久化时候如果发生当机,正在持久化的数据会丢失,
+aof优点数据安全,,文件过大可以进行文件重写  save和bgsave
+缺点:aof比rdb大,恢复速度慢,数据集大的时候,比rdb气动效率低
+
+6、Redis是单线程的，但Redis为什么这么快？
+redis运用队列技术,把并发操作变为串行操作,消除传统数据库的串行控制的开销
+避免线程上下文切换,避免加锁解锁的操作
+Nginx
+1、Nginx 有哪些优点？
+	高并发,可以支持5万并发链接
+	cpu内存等资源消耗低
+	可以做网关,针对并发阈值和黑名单进行设置
+2、Nginx 是如何实现高并发的？
+	于Nginx来讲，一个进程只有一个主线程，通过异步非阻塞的事件处理机制，实现了循环处理多个准备好的事件，从而实现轻量级和高并发。
+3、Nginx 有哪些负载均衡策略？
+	1轮询:默认的负载均衡策略,按请求时间卓一分配,服务器down掉自动剔除,缺点是可靠性低负载不均匀,适用于图片服务器集群和纯静态页面服务器集群
+	2权重:指定轮询几率,权重与访问量成正比
+	3ip_hash:每个请求的结果按照ip的hash分配,每个访问固定访问一个后端服务器
+	
+4、Nginx配置高可用性怎么配置？
+		需要机器都安装keepalived
+		
+5、Nginx怎么实现的负载均衡？
+	客户端请求可以通过nginx分摊给多个后端服务器处理共同完成发任务
+	
+Elasticsearch  简称 ES
+1、Solr和Elasticsearch区别？
+	Solr 利用 Zookeeper 进行分布式管理，而 Elasticsearch 自身带有分布式协调管理功能。
+	Solr 支持更多格式的数据，比如JSON、XML、CSV，而 Elasticsearch 仅支持json文件格式
+	
+2、为什么要使用Elasticsearch?
+	因为在我们商城中的数据，将来会非常多，所以采用以往的模糊查询，模糊查询前置配置，会放弃索引，导致商品查询是全表扫面，
+	在百万级别的数据库中，效率非常低下，而我们使用ES做一个全文索引，
+	我们将经常查询的商品的某些字段，比如说商品名，描述、价格还有id这些字段我们放入我们索引库里，可以提高查询速度。
+
+3、.在并发情况下，Elasticsearch如果保证读写一致？
+	可以通过版本号使用乐观并发控制，以确保新版本不会被旧版本覆盖
+	对于写操作,只有当大多数分片可用时才允许写操作。但即使大多数可用，也可能存在因为网络 等原因导致写入副本失败，这样该副本被认为故障，分片将会在一个不同的节点上重建。
+	3、对于读操作,可以设置 replication(ruai pe lou keishen) 为 sync(默认)，这使得操作在主分片和副本分片都完成后才会返回；如果设置 replication 为 async 时，也可以通过设置搜索请求参数_preference 为 primary(pe mai rui) 来查询主分片，确保文档是最新版本。
+4、Elasticsearch中的倒排索引是什么？
+	在搜索引擎中每个文件都对应一个文件ID，文件内容被表示为一系列关键词的集合
+	倒排索引主要由单词词典（Term Dictionary）和倒排列表（Posting List）及倒排文件(Inverted File)组成。
+
+基础
+1、Java 中的final关键字有哪些用法？
+	final修饰的类是最终类,不可以被继承
+	final修饰的方法不可以被重写
+	final修饰的变量叫常量,常量必须初始化,初始化的值不可以被修改
+
+2、HashMap使用对象作为key，如果hashcode相同会怎么处理？
+存值可能会发生哈希碰撞,值不同hash相同,会将元素存储到数组中的链表中,以链表的形式对元素进行存储 1.8尾插法   1.7头插法
+3、 final、finally、finalize 有什么区别？
+	final是修饰符,修饰的类不可以被继承,方法不可以被重写
+	finally是异常最终会执行的,有一种情况不会执行就是当线程等待时候
+	finalize是在垃圾回收器清理对象之前做的必要的清理工作,在object中定义,
+	
+4、常见的异常类有哪些？
+	SQLException 操作数据库异常
+	concurrentModificationException  集合多线程写异常
+	
+5、String 类的常用方法都有那些？
+	lenght() 长度
+	getByte()字符串转化为字节   
+	equals()比较是相同
+	substring(x)从x下标截取一直到最后
+	
+6、String和StringBuilder、StringBuffer的区别？
+	string 长度不可变,stringbuffer和springbuilder可变
+	springbuild线程不安全,效率高,springbuffer线程不安全,效率低
+	
+7、常见的集合有哪些吧？
+hashset  arraylist   hashmap  
+8、HashSet是如何保证数据不可重复的？
+底层是hashmap   存的key是值,值是一个常数,重复数据会发生覆盖

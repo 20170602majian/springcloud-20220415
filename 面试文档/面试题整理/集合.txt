@@ -1,0 +1,23 @@
+HashMap扩容机制-为什么负载因子默认为0.75f？
+负载因子0.75 如果容量大大0.75则扩容为原来的两倍。
+扩容因此 0.75
+空间利用率和时间效率在0.75的时候达到了平衡。
+在统计学上0.693是最佳的选择。然后可能更想着有空间利用率，而且在。Net语言中 hashmap的负载因子是0.7
+
+ArrayList和LinkedList都实现了List接口，他们有以下的不同点：
+
+1.ArrayList是基于索引的数据接口，它的底层是数组。它可以以O(1)时间复杂度对元素进行随机访问。与此对应，LinkedList是以元素列表的形式存储它的数据，每一个元素都和它的前一个和后一个元素链接在一起，在这种情况下，查找某个元素的时间复杂度是O(n)。
+
+2.相对于ArrayList，LinkedList的插入，添加，删除操作速度更快，因为当元素被添加到集合任意位置的时候，不需要像数组那样重新计算大小或者是更新索引。
+
+3.LinkedList比ArrayList更占内存，因为LinkedList为每一个节点存储了两个引用，一个指向前一个元素，一个指向下一个元素。
+
+arraylist扩容
+https://blog.csdn.net/zymx14/article/details/78324464?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param
+总之，ArrayList默认容量是10，如果初始化时一开始指定了容量，或者通过集合作为元素，则容量为指定的大小或参数集合的大小。
+每次扩容为原来的1.5倍，如果新增后超过这个容量，则容量为新增后所需的最小容量。
+如果增加0.5倍后的新容量超过限制的容量，则用所需的最小容量与限制的容量进行判断，超过则指定为Integer的最大值，否则指定为限制容量大小。
+然后通过数组的复制将原数据复制到一个更大(新的容量大小)的数组。
+
+
+在new ArrayList()时括号里没有指定参数的话，则ArrayList这时的数组容量为0，只有在第一次添加元素时，才会把数组容量设为1

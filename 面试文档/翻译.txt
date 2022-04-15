@@ -1,0 +1,4 @@
+exclude  排除    
+include   包含
+
+assignable    扫描类type的一个属性，指定具体的类a sai ne bao

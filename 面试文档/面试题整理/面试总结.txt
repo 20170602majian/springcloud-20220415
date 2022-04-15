@@ -1,0 +1,29 @@
+1	redis默认端口	6379
+2	springboot默认端口  8080
+3	idea插件	Maven Helper   分析maven的相关依赖   checkstyle代码检查   
+4	idea常用快捷键
+Ctrl + F	在当前文件进行文本查找 （必备）
+Ctrl + R	在当前文件进行文本替换 （必备）
+		+v
+		+c
+		+x
+		ctrl + /
+		crtl+shift+/
+		Ctrl + 左方向键	光标跳转到当前单词 / 中文句的左侧开头位置
+		
+springcloud 配置熔断
+@HystrixCommand(fallbackMethod = "findOrderFallback")
+
+Ribbon默认采取轮询算法
+
+轮询算法
+
+1. 随机 (Random)
+
+2. 轮询 (RoundRobin)
+
+3. 一致性哈希 (ConsistentHash)
+
+4. 哈希 (Hash)
+
+5. 加权（Weighted）
