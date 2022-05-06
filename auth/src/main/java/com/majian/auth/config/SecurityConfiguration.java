@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                                             //对密码进行加密   passwordEncoder.encode()
-                .withUser("admin").password(passwordEncoder().encode("123456")).roles("ADMIN")
+                .withUser("admin").password("123456").roles("ADMIN")
                 .and()
                                             //对密码进行加密
                 .withUser("user").password(passwordEncoder().encode("123456")).roles("USER");
@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()//得到SpringSecurity接管的请求
                 .antMatchers("/test/*")//给接管的请求(/**)中的/test/*
                 .hasAnyAuthority("p3")//配置需要p1权限
-                .antMatchers("/mbb/*")//给接管的请求(/**)中的/mbb/*
+                .antMatchers("/mbbb/*")//给接管的请求(/**)中的/mbb/*
                 .permitAll()//放行，无需权限
                 .anyRequest()//其他请求
                 .authenticated()//都需要认证

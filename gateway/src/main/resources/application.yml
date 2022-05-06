@@ -5,10 +5,15 @@ spring:
         locator:
           enabled: true    # 开启从eureka 拉取服务列表  并自动映射
       routes:
-        - id: cloud-fegin
-          predicates:
-            - Path=/fegin/**
-          uri: lb://cloud-fegin
+      - id: cloud-fegin
+        predicates:
+        - Path=/fegin/**
+        uri: lb://cloud-fegin
+
+      - id: cloud-auth
+        predicates:
+        - Path=/uaa/**
+        uri: lb://cloud-auth
           #filters:
            # - StripPrefix=1
   application:
