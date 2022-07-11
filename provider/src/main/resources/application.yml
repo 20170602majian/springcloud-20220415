@@ -2,7 +2,7 @@ spring:
   application:
     name: cloud-provider #服务名称
 server:
-  port: 10008 #端口
+  port: 10009 #端口
 eureka:
   instance:
     hostname: 127.0.0.1 #实例注册地址

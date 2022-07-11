@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class ProviderFallBackFactory implements FallbackFactory<MemberFegin> {
+public class     ProviderFallBackFactory implements FallbackFactory<MemberFegin> {
     @Override
     public MemberFegin create(Throwable cause) {
 

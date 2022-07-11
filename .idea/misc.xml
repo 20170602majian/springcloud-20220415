@@ -18,6 +18,7 @@
         <option value="$PROJECT_DIR$/auth/pom.xml" />
         <option value="$PROJECT_DIR$/rabbitMq/pom.xml" />
         <option value="$PROJECT_DIR$/redis2-dev/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka1/pom.xml" />
       </list>
     </option>
   </component>

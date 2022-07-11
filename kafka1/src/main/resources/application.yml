@@ -1,0 +1,52 @@
+﻿server:
+  port: 10990 #端口
+  servlet:
+    context-path: /kafka
+eureka:
+  instance:
+    hostname: 127.0.0.1 #实例注册地址
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka,http://localhost:9002/eureka/
+
+
+spring:
+  application:
+    name: cloud-kafka1
+  kafka:
+    # 消费者
+    consumer:
+      group-id: foo
+      auto-offset-reset: earliest
+      bootstrap-servers: 192.168.1.130:9092,192.168.1.131:9092,192.168.1.132:9092
+    # 生产者
+    producer:
+      bootstrap-servers: 192.168.1.130:9092,192.168.1.131:9092,192.168.1.132:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #String类型
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+  aop:
+    proxy-target-class: true
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/testMyBatisPlus?useUnicode=true&characterEncoding=utf8
+#可以打印sql等信息
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.majian.springboot_mybatis.entity
+
+logging:
+  level:
+    org.springframework: INFO
+
+
+

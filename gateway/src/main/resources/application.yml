@@ -16,6 +16,11 @@ spring:
         uri: lb://cloud-auth
           #filters:
            # - StripPrefix=1
+      - id: cloud-kafka1
+        predicates:
+        - Path=/kafka/**
+        uri: lb://cloud-kafka1
+
   application:
     name: gateWay
 eureka:

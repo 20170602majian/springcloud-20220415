@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 
 @RequestMapping ("/member")
 @Controller
@@ -14,6 +15,9 @@ public class MemberController {
     @ResponseBody
     public String get (Integer id, String name, HttpServletRequest request){
         System.out.printf("调用成功！！！"+id+name);
+        new ReentrantLock().lock();
+        new ReentrantLock().unlock();
+
         return "ssss";
     }
 

@@ -7,12 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="springcloud" />
         <module name="fegin" />
         <module name="redis2-dev" />
         <module name="provider" />
         <module name="auth" />
         <module name="eureka" />
+        <module name="kafka1" />
         <module name="eureka2" />
         <module name="javabasic" />
         <module name="provider2" />
@@ -30,6 +30,7 @@
       <module name="fegin" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="javabasic" options="-parameters" />
+      <module name="kafka1" options="-parameters" />
       <module name="provider" options="-parameters" />
       <module name="provider2" options="-parameters" />
       <module name="rabbitMq" options="-parameters" />

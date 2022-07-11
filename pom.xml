@@ -6,7 +6,11 @@
 
     <groupId>com.majian</groupId>
     <artifactId>springcloud</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <!--<modules>
+        <module>kafka1</module>
+    </modules>-->
     <dependencies>
         <dependency>
             <groupId>com.netflix.feign</groupId>
